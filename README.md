@@ -49,3 +49,9 @@
       - 7セグドライバ転送
 - キャラクタOLED
 - 時刻同期
+
+
+## データシート
+
+- Display: SSD1306
+  - https://akizukidenshi.com/goodsaffix/ssd1306.pdf
