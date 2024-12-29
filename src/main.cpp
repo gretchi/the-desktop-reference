@@ -22,6 +22,9 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 WiFiManager wm(CONFIGURE_WIFI_SSID, CONFIGURE_WIFI_PASS);
 
+const char *week_char[7] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+const char *time_zone = "JST-9";
+
 bool setClock()
 {
   NTP.begin("ntp.nict.jp", "time.google.com");
@@ -48,27 +51,54 @@ void setup()
   display.display();
   delay(1500);
 
+  // Wi-Fi
   display.clearDisplay();
-
   display.setTextSize(1);
   display.setCursor(0, 0);
-  display.printf(" SSID: %s\n", CONFIGURE_WIFI_SSID);
-  display.printf(" PASS: %s\n", CONFIGURE_WIFI_PASS);
+  display.printf("Configure Wi-Fi\n");
+  display.setCursor(0, 15);
+  display.printf("  SSID:\n     %s\n", CONFIGURE_WIFI_SSID);
+  display.setCursor(0, 35);
+  display.printf("  PASS:\n     %s\n", CONFIGURE_WIFI_PASS);
 
   display.display();
 
   wm.autoConnect();
+
+  setenv("TZ", time_zone, 1);
+  tzset();
+
+  // NTP.begin("ntp.nict.jp", "time.google.com");
+  // NTP.waitSet();
+
+  // configTzTime(time_zone, "ntp.nict.jp");
+  bool set_clock_result = setClock();
+
+  display.printf("set_clock_result=%d\n", set_clock_result);
+
+  delay(1500);
 }
 
 void loop()
 {
+  static time_t now;
+  static struct tm *timeinfo;
+  time(&now);
+  timeinfo = localtime(&now);
+
   display.clearDisplay();
 
   display.setTextSize(1);
   display.setCursor(4, 0);
-  display.println("Person:");
-  display.setCursor(4, 10);
-  display.println("Detection");
+  display.printf("%04d/%02d/%02d\n  %02d:%02d:%02d\n",
+                 timeinfo->tm_year + 1900,
+                 timeinfo->tm_mon + 1,
+                 timeinfo->tm_mday,
+                 timeinfo->tm_hour,
+                 timeinfo->tm_min,
+                 timeinfo->tm_sec,
+                 timeinfo->tm_wday,
+                 week_char[timeinfo->tm_wday]);
 
   digitalWrite(LED_BUILTIN, LOW);
   delay(950);
