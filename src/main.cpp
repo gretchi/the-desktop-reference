@@ -88,6 +88,7 @@ void loop()
 
   display.clearDisplay();
 
+  display.setTextColor(SSD1306_BLACK);
   display.setTextSize(1);
   display.setCursor(4, 0);
   display.printf("%04d/%02d/%02d\n  %02d:%02d:%02d\n",

@@ -2,6 +2,8 @@
 
 理想的な置き時計を求めて
 
+名称 The Desktop Reference
+
 ## 要件と設計
 
 ### 状態
