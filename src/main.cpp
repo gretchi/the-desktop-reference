@@ -130,6 +130,14 @@ void loop()
                  timeinfo->tm_mon + 1,
                  timeinfo->tm_mday);
 
+  // display.setTextColor(SSD1306_BLACK);
+  // display.setTextSize(1);
+  // display.setCursor(4, 0);
+  // display.printf("%04d/%02d/%02d\n  %02d:%02d:%02d\n",
+  //                timeinfo->tm_year + 1900,
+  //                timeinfo->tm_mon + 1,
+  //                timeinfo->tm_mday);
+
   x_base = 4;
   y_base = 26;
   display.setCursor(x_base + 0, y_base + 0);
